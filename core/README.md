@@ -375,7 +375,7 @@ $ minikube service -n dev nodeport
 4) Lastly, verify that the generated DNS record has been created for the Service by using nslookup within
 the `example-pod` Pod.
 ```
-$ kubectl exec pod-example -- nslookup nodeport.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup nodeport.<YOUR_NAME>.svc.cluster.local
 ```
 It should return a valid response with the IP matching what was noted earlier when describing the Service.
 
