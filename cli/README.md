@@ -123,51 +123,6 @@ Kubernetes documentation.
 
 ---
 
-### Exercise: Using Contexts
-**Objective:** Create a new context called `minidev` and switch to it.
-
----
-
-1. View the current contexts.
-```
-$ kubectl config get-contexts
-```
-
-2. Create a new context called `minidev` within the `minikube` cluster with the `dev` namespace, as the
-`minikube` user.
-```
-$ kubectl config set-context minidev --cluster=minikube --user=minikube --namespace=dev
-```
-
-3. View the newly added context.
-```
-kubectl config get-contexts
-```
-
-4. Switch to the `minidev` context using `use-context`.
-```
-$ kubectl config use-context minidev
-```
-
-5. View the current active context.
-```
-$ kubectl config current-context
-```
-
----
-
-**Summary:** Understanding and being able to switch between contexts is a base fundamental skill required by every
-Kubernetes user. As more clusters and namespaces are added, this can become unwieldy. Installing a helper
-application such as [kubectx](https://github.com/ahmetb/kubectx) can be quite helpful. Kubectx allows a user to quickly
-switch between contexts and namespaces without having to use the full `kubectl config use-context` command.
-
----
-
-[Back to Index](#index)
-
----
----
-
 ## Kubectl Basics
 There are several `kubectl` commands that are frequently used for any sort of day-to-day operations. `get`, `create`,
 `apply`, `delete`, `describe`, and `logs`.  Other commands can be listed simply with `kubectl --help`, or
@@ -550,29 +505,6 @@ http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboar
 ```
 ---
 
-### Dashboard
-
-While the Kubernetes Dashboard is not something that is required to be deployed in a cluster, it frequently is and is
-a handy tool to quickly explore the system. **However**, it should not be relied upon for cluster support.
-
-![Kubernetes Dashboard](images/dashboard.png)
-
-To access the dashboard use the `kubectl proxy` command and access the `kubernetes-dashboard` service within the
-`kube-system` namespace.
-```
-http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/
-```
-
-Leaving the proxy up and going may not be desirable for quick dev-work. Minikube itself has a command that will
-open the dashboard up in a new browser window through an exposed service on the Minikube VM.
-
-**Command**
-```
-$ minikube dashboard
-```
-
----
-
 ### Exercise: Using the Proxy
 **Objective:** Examine the capabilities of the proxy by accessing a pod's exposed ports and using the dashboard.
 
@@ -590,21 +522,12 @@ $ kubectl proxy
 
 3) Access the Pod through the proxy.
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/pods/mypod/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/<YOUR_NAME>/pods/mypod/proxy/
 ```
 You should see the "Welcome to nginx!" page.
 
 
-4) Access the Dashboard through the proxy.
-```
-http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/
-```
-
-5) Lastly, stop the proxy (`CTRL+C`) and access the Dashboard through minikube.
-```
-$ minikube dashboard
-```
-Minikube offers a convenient shortcut to access the dashboard (without the proxy) for local development use.
+4) Lastly, stop the proxy (`CTRL+C`).
 
 ---
 
@@ -622,13 +545,6 @@ external IP, or create firewall rules is an incredibly useful tool for troublesh
 **NOTE:** If you are proceeding with the next tutorials, simply delete the pod with:
 ```
 $ kubectl delete pod mypod
-```
-The namespace and context will be reused. 
-
-To remove everything that was created in this tutorial, execute the following commands:
-```
-kubectl delete namespace dev
-kubectl config delete-context minidev
 ```
 
 ---
