@@ -316,7 +316,7 @@ http://127.0.0.1:8001/api/v1/namespaces/<YOUR_NAME>/services/clusterip/proxy/
 4) Lastly, verify that the generated DNS record has been created for the Service by using nslookup within the
 `example-pod` Pod that was provisioned in the [Creating Pods](#exercise-creating-pods) exercise.
 ```
-$ kubectl exec pod-example -- nslookup clusterip.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup clusterip.<YOUR_NAME>.svc.cluster.local
 ```
 It should return a valid response with the IP matching what was noted earlier when describing the Service.
 
