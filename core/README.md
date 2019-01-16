@@ -335,7 +335,7 @@ which exposed Pod Services are consumed **within** a Kubernetes Cluster.
 ---
 
 1) Create a `NodePort` Service called `nodeport` that targets Pods with the labels `app=nginx` and `environment=dev`
-forwarding port `80` in cluster, and port `32410` on the node itself. Use either the yaml below, or the manifest
+forwarding port `80` in cluster, and port `3XXXX` on the node itself. Use either the yaml below, or the manifest
 `manifests/service-nodeport.yaml`.
 
 **manifests/service-nodeport.yaml**
@@ -350,8 +350,7 @@ spec:
     app: nginx
     environment: dev
   ports:
-  - nodePort: 32410
-    protocol: TCP
+  - protocol: TCP
     port: 80
     targetPort: 80
 ```
@@ -367,10 +366,7 @@ additionally has a `NodePort`.
 $ kubectl describe service nodeport
 ```
 
-3) Use the `minikube service` command to open the newly exposed `nodeport` Service in a browser.
-```
-$ minikube service -n dev nodeport
-```
+3) Open a browser and visit the IP of a node (`k get node -o wide`) with the port in `NodePort` field. It should directly map to the exposed Service.
 
 4) Lastly, verify that the generated DNS record has been created for the Service by using nslookup within
 the `example-pod` Pod.
@@ -394,16 +390,6 @@ make a Service available outside the Cluster.
 **Before you Begin**
 To use Service Type `LoadBalancer` it requires integration with an external IP provider. In most cases, this is a
 cloud provider which will likely already be integrated with your cluster.
-
-For bare-metal and on prem deployments, this must be handled yourself. There are several available tools and products
-that can do this, but for this example the Google [metalLB](https://github.com/google/metallb) provider will be used.
-
-**NOTE:** If you are **NOT** using the default virtualbox deployment of Minikube, or using it with a different default
-IP range. Edit the manifest `manifests/metalLB.yaml` and change the cidr range on line 20 (`192.168.99.224/28`) to
-fit your requirements. Otherwise go ahead and deploy it.
-```
-$ kubectl create -f manifests/metalLB.yaml
-```
 
 1) Create a `LoadBalancer` Service called `loadbalancer` that targets pods with the labels `app=nginx` and
 `environment=prod` forwarding as port `80`. Use either the yaml below, or the manifest
@@ -440,16 +426,10 @@ $ kubectl describe service loadbalancer
 3) Open a browser and visit the IP noted in the `Loadbalancer Ingress` field. It should directly map to the exposed
 Service.
 
-4) Use the `minikube service` command to open the `NodePort` portion of the `loadbalancer` Service in a new browser
-window.
-```
-$ minikube service -n dev loadbalancer
-```
-
-5) Finally, verify that the generated DNS record has been created for the Service by using nslookup within the
+4) Finally, verify that the generated DNS record has been created for the Service by using nslookup within the
 `example-pod` Pod.
 ```
-$ kubectl exec pod-example -- nslookup loadbalancer.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup loadbalancer.<YOUR_NAME>.svc.cluster.local
 ```
 It should return a valid response with the IP matching what was noted earlier when describing the Service.
 
@@ -481,7 +461,7 @@ $ kubectl describe service externalname
 3) Lastly, look at the generated DNS record has been created for the Service by using nslookup within the
 `example-pod` Pod. It should return the IP of `google.com`.
 ```
-$ kubectl exec pod-example -- nslookup externalname.dev.svc.cluster.local
+$ kubectl exec pod-example -- nslookup externalname.<YOUR_NAME>.svc.cluster.local
 ```
 
 ---
@@ -500,10 +480,8 @@ internal Service discovery methods to reference external entities.
 
 To remove everything that was created in this tutorial, execute the following commands:
 ```
-kubectl delete namespace dev
-kubectl delete -f manifests/metalLB.yaml
-kubectl config delete-context minidev
-kubectl config use-context minikube
+k delete service --all
+k delete pod --all
 ```
 
 ---
