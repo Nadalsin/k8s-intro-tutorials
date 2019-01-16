@@ -26,36 +26,6 @@ access.
 
 ---
 
-### Exercise: Using Namespaces
-**Objectives:** Learn how to create and switch between Kubernetes Namespaces using `kubectl`.
-
-**NOTE:** If you are coming from the [cli tutorial](../cli/README.md), you may have completed this already.
-
----
-
-1) List the current namespaces
-```
-$ kubectl get namespaces
-```
-
-2) Create the `dev` namespace
-```
-$ kubectl create namespace dev
-```
-
-3) Create a new context called `minidev` within the `minikube` cluster  as the `minikube` user, with the namespace
- set to `dev`.
-```
-$ kubectl config set-context minidev --cluster=minikube --user=minikube --namespace=dev
-```
-
-4) Switch to the newly created context.
-```
-$ kubectl config use-context minidev
-```
-
----
-
 **Summary:** Namespaces function as the primary method of providing scoped names, access, and act as an umbrella for
 group based resource restriction. Creating and switching between them is quick and easy, but learning to use them is
 essential in the general usage of Kubernetes.
@@ -116,7 +86,7 @@ $ kubectl proxy
 ```
 **URL**
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/pods/pod-example/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/<YOUR_NAME>/pods/pod-example/proxy/
 ```
 
 The default **"Welcome to nginx!"** page should be visible.
@@ -169,7 +139,7 @@ $ kubectl proxy
 ```
 **URL**
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/pods/multi-container-example/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/<YOUR_NAME>/pods/multi-container-example/proxy/
 ```
 
 There should be a repeating date-time-stamp.
@@ -340,7 +310,7 @@ $ kubectl proxy
 ```
 **URL**
 ```
-http://127.0.0.1:8001/api/v1/namespaces/dev/services/clusterip/proxy/
+http://127.0.0.1:8001/api/v1/namespaces/<YOUR_NAME>/services/clusterip/proxy/
 ```
 
 4) Lastly, verify that the generated DNS record has been created for the Service by using nslookup within the
