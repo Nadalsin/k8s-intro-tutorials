@@ -717,14 +717,14 @@ in this behavior.
 
 3) Query the DNS entry for the `app` service.
 ```
-$ kubectl exec sts-example-0 -- nslookup app.default.svc.cluster.local
+$ kubectl exec sts-example-0 -- nslookup app.<YOUR_NAME>.svc.cluster.local
 ```
 An A record will have been returned for each instance of the StatefulSet. Querying the service directly will do
 simple DNS round-robin load-balancing.
 
 4) Finally, query one of instances directly.
 ```
-$ kubectl exec sts-example-0 -- nslookup sts-example-1.app.default.svc.cluster.local
+$ kubectl exec sts-example-0 -- nslookup sts-example-1.app.<YOUR_NAME>.svc.cluster.local
 ```
 This is a unique feature to StatefulSets. This allows for services to directly interact with a specific instance
 of a Pod. If the Pod is updated and obtains a new IP, the DNS record will immediately point to it enabling consistent
