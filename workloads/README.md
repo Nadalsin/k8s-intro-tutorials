@@ -416,20 +416,9 @@ $ kubectl create -f manifests/ds-example.yaml --record
 ```
 $ kubectl get daemonset
 ```
-As there are no matching nodes, no Pods should be scheduled.
+There should now be a single instance of the DaemonSet `ds-example` deployed because only one node has the `nodeType=edge` label.
 
-3) Label the `minikube` node with `nodeType=edge`
-```
-$ kubectl label node minikube nodeType=edge
-```
-
-4) View the current DaemonSets once again.
-```
-$ kubectl get daemonsets
-```
-There should now be a single instance of the DaemonSet `ds-example` deployed.
-
-5) View the current Pods and display their labels with `--show-labels`.
+3) View the current Pods and display their labels with `--show-labels`.
 ```
 $ kubectl get pods --show-labels
 ```
