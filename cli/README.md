@@ -256,9 +256,9 @@ what was created.
 
 ---
 
-1) Create the `dev` namespace.
+1) Create your namespace.
 ```
-kubectl create namespace dev
+kubectl create namespace <YOUR_NAME>
 ```
 
 2) Apply the manifest `manifests/mypod.yaml`.
